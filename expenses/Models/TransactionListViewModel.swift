@@ -20,7 +20,7 @@ final class TransactionListViewModel: ObservableObject {
     URLSession.shared.fetchData(at: url) { (result: Result<[Transaction], Error>) in
         switch result {
         case .success(let transactions):
-          dump(transactions)
+          self.transactions = transactions
         case .failure(let error):
           print("Failed to fetch data ", error.localizedDescription)
           break
