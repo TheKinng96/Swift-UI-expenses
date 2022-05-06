@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SwiftUIFontIcon
 
 struct Transaction: Identifiable, Decodable, Hashable {
   let id: Int
@@ -22,12 +23,24 @@ struct Transaction: Identifiable, Decodable, Hashable {
   var isExpense: Bool
   var isEdited: Bool
   
+  var icon: FontAwesomeCode {
+    if let category = Category.all.first(where: { $0.id == categoryId }) {
+      return category.icon
+    }
+    
+    return .question
+  }
+  
   var dateParsed: Date {
     date.dateParsed()
   }
   
   var signedAmount: Double {
     return type == TransactionType.credit.rawValue ? amount : -amount
+  }
+  
+  var month: String {
+    return dateParsed.formatted(.dateTime.year().month(.wide))
   }
 }
 //import RealmSwift

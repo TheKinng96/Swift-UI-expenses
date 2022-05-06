@@ -7,6 +7,8 @@
 
 import Foundation
 
+typealias TransactionGroup = [String: [Transaction]]
+
 final class TransactionListViewModel: ObservableObject {
   @Published var transactions: [Transaction] = []
   
@@ -26,5 +28,13 @@ final class TransactionListViewModel: ObservableObject {
           break
       }
     }
+  }
+  
+  func groupTransactionByMonth() -> TransactionGroup {
+    guard !transactions.isEmpty else { return [:] }
+    
+    let groupTransaction = TransactionGroup(grouping: transactions) { $0.month }
+    
+    return groupTransaction
   }
 }

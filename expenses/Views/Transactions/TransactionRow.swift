@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import SwiftUIFontIcon
 
 struct TransactionRow: View {
   var transaction: Transaction
@@ -16,9 +17,7 @@ struct TransactionRow: View {
         .fill(Color.icon.opacity(0.3))
         .frame(width: 44, height: 44)
         .overlay {
-          Image(systemName: "wallet.pass.fill")
-            .frame(width: 24, height: 24)
-            .foregroundColor(Color.icon)
+          FontIcon.text(.awesome5Solid(code: transaction.icon), fontsize: 24, color: Color.icon)
         }
       
       VStack(alignment: .leading, spacing: 6) {
