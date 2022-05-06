@@ -19,7 +19,7 @@ struct TransactionBlock: View {
         Spacer()
         
         NavigationLink {
-          
+          TransactionList()
         } label: {
           HStack{
             Text("See more")
