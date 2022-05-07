@@ -6,34 +6,52 @@
 //
 
 import SwiftUI
+import SwiftUICharts
 
 struct ContentView: View {
+  @EnvironmentObject var transactionList: TransactionListViewModel
+  
   var body: some View {
-      NavigationView {
-        ScrollView {
-          VStack(alignment: .leading, spacing: 24) {
-            // MARK: - Title
-            Text("Overview", comment: "testing")
-              .font(.title)
-              .bold()
-            
-            TransactionBlock()
+    NavigationView {
+      ScrollView {
+        VStack(alignment: .leading, spacing: 24) {
+          // MARK: - Title
+          Text("Overview", comment: "testing")
+            .font(.title)
+            .bold()
+          
+          let data = transactionList.accumulateTransactions()
+          let totalExpenses = data.last?.1 ?? 0
+          CardView {
+            VStack{
+              ChartLabel(totalExpenses.formatted(.currency(code: "USD")), type: .title)
+              LineChart()
+            }
+            .background(Color.systemBackground)
           }
-          .padding()
-          .frame(maxWidth: .infinity)
+          .data(data)
+          .chartStyle(ChartStyle(
+            backgroundColor: Color.systemBackground,
+            foregroundColor: ColorGradient(Color.icon.opacity(0.4), Color.icon)))
+          .frame(height: 300)
+          
+          TransactionBlock()
         }
-        .background(Color.background)
-        .navigationBarTitleDisplayMode(.inline)
-        .toolbar {
-          ToolbarItem {
-            Image(systemName: "bell.badge")
-              .symbolRenderingMode(.palette)
-              .foregroundStyle(Color.icon, .primary)
-          }
+        .padding()
+        .frame(maxWidth: .infinity)
+      }
+      .background(Color.background)
+      .navigationBarTitleDisplayMode(.inline)
+      .toolbar {
+        ToolbarItem {
+          Image(systemName: "bell.badge")
+            .symbolRenderingMode(.palette)
+            .foregroundStyle(Color.icon, .primary)
         }
       }
-      .navigationViewStyle(.stack)
-      .accentColor(.primary)
+    }
+    .navigationViewStyle(.stack)
+    .accentColor(.primary)
   }
 }
 
